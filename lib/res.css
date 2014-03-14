@@ -595,6 +595,21 @@ p.moduleListing {
 	background-color: #5cc410;
 	margin-bottom: 10px;
 }
+#moduleOptionsSave:hover {
+	background-color: #73e81e;
+}
+.moduleOAuthButton {
+	cursor: pointer;
+	padding: 3px 5px;
+	font-size: 12px;
+	color: #fff;
+	border: 1px solid #636363;
+	border-radius: 3px;
+	background-color: #71a2bc;
+}
+.moduleOAuthButton:hover {
+	background-color: #86c3e4;
+}
 .RESConsoleButton {
 	cursor: pointer;
 	padding: 3px 5px;
@@ -603,9 +618,6 @@ p.moduleListing {
 	border: 1px solid #636363;
 	border-radius: 3px;
 	background-color: #5cc410;
-}
-#moduleOptionsSave:hover {
-	background-color: #73e81e;
 }
 .addRowButton {
 	cursor: pointer;
