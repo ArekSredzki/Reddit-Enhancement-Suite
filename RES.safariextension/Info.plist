@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Steve Sobel</string>
 	<key>Builder Version</key>
-	<string>8537.73.11</string>
+	<string>9537.74.9</string>
 	<key>CFBundleDisplayName</key>
 	<string>Reddit Enhancement Suite</string>
 	<key>CFBundleIdentifier</key>
@@ -33,6 +33,7 @@
 				<string>guiders-1.2.8.js</string>
 				<string>jquery.dragsort-0.6.js</string>
 				<string>jquery-fieldselection.min.js</string>
+				<string>jquery.fineuploader-4.3.1.min.js</string>
 				<string>tinycon.js</string>
 				<string>jquery.tokeninput.js</string>
 				<string>snuownd.js</string>
@@ -50,7 +51,6 @@
 				<string>modules/userTagger.js</string>
 				<string>modules/keyboardNav.js</string>
 				<string>modules/commandLine.js</string>
-				<string>modules/search.js</string>
 				<string>modules/hover.js</string>
 				<string>modules/subredditTagger.js</string>
 				<string>modules/uppersAndDowners.js</string>
@@ -68,6 +68,7 @@
 				<string>modules/styleTweaks.js</string>
 				<string>modules/accountSwitcher.js</string>
 				<string>modules/filteReddit.js</string>
+				<string>modules/imageUpload.js</string>
 				<string>modules/newCommentCount.js</string>
 				<string>modules/spamButton.js</string>
 				<string>modules/commentNavigator.js</string>

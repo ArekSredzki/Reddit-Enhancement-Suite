@@ -23,6 +23,7 @@
 				"guiders-1.2.8.js",
 				"jquery.dragsort-0.6.js",
 				"jquery-fieldselection.min.js",
+				"jquery.fineuploader-4.3.1.min.js",
 				"tinycon.js",
 				"jquery.tokeninput.js",
 				"snuownd.js",
@@ -58,6 +59,7 @@
 				"modules/styleTweaks.js",
 				"modules/accountSwitcher.js",
 				"modules/filteReddit.js",
+				"modules/imageUpload.js",
 				"modules/newCommentCount.js",
 				"modules/spamButton.js",
 				"modules/commentNavigator.js",
@@ -76,6 +78,7 @@
 			"css": [
 				"nightmode.css",
 				"commentBoxes.css",
+				"fineUploader.css",
 				"res.css",
 				"guiders.css",
 				"tokenize.css",
