@@ -6,13 +6,65 @@ let pageMod = require("sdk/page-mod");
 let Request = require("sdk/request").Request;
 let self = require("sdk/self");
 let tabs = require("sdk/tabs");
-let ss = require("sdk/simple-storage");
+//let ss = require("simple-storage"); // Temporarily disabled
+let timer = require("sdk/timers");
 let priv = require("sdk/private-browsing");
 let windows = require("sdk/windows").browserWindows;
 
 // require chrome allows us to use XPCOM objects...
 const {Cc,Ci,Cu,components} = require("chrome");
 let historyService = Cc["@mozilla.org/browser/history;1"].getService(Ci.mozIAsyncHistory);
+
+// Temporary workaround for ss being broken (https://github.com/honestbleeps/Reddit-Enhancement-Suite/issues/797)
+let localStorage = {};
+let file = require("sdk/io/file")
+let ss = (function() {
+	var timeout = null;
+
+	let storeFile = Cc["@mozilla.org/file/directory_service;1"].
+		getService(Ci.nsIProperties).
+		get("ProfD", Ci.nsIFile);
+	storeFile.append("jetpack");
+	storeFile.append(self.id);
+	storeFile.append("simple-storage");
+	file.mkpath(storeFile.path);
+	let tempFile = storeFile.clone();
+	storeFile.append("store.json");
+	tempFile.append("store.json.tmp");
+
+	var really_save = function() {
+		let stream = file.open(tempFile.path, "w");
+		try {
+			stream.writeAsync(JSON.stringify(localStorage), function writeAsync(err) {
+				if (err) {
+					console.error("Error writing simple storage file: " + tempFile.path);
+				} else {
+					let tempFileClone = tempFile.clone();
+					tempFileClone.moveTo(null, storeFile.leafName);
+				}
+			}.bind(this));
+		}
+		catch (err) {
+			// writeAsync closes the stream after it's done, so only close on error.
+			stream.close();
+		}
+	};
+	this.save = function() {
+	    if (timeout !== null) {
+			timer.clearTimeout(timeout);
+	    }
+	    timeout = timer.setTimeout(really_save, 3000);
+	};
+	let str = "";
+	try {
+		str = file.read(storeFile.path);
+	} catch (e) {
+		console.warn("Error loading simple storage file: " + e);
+	}
+	localStorage = str ? JSON.parse(str) : {};
+	return this;
+})();
+// End temporary workaround
 
 // Cookie manager for new API login
 let cookieManager = Cc["@mozilla.org/cookiemanager;1"].getService().QueryInterface(Ci.nsICookieManager2);
@@ -35,16 +87,16 @@ function detachWorker(worker, workerArray) {
 	}
 }
 
-let localStorage = ss.storage;
-
 localStorage.getItem = function(key) {
-	return ss.storage[key];
+	return localStorage[key];
 };
 localStorage.setItem = function(key, value) {
-	ss.storage[key] = value;
+	localStorage[key] = value;
+	ss.save();
 };
 localStorage.removeItem = function(key) {
-	delete ss.storage[key];
+	delete localStorage[key];
+	ss.save();
 };
 
 let XHRCache = {
@@ -124,15 +176,18 @@ pageMod.PageMod({
 		self.data.url('jquery.fineuploader-4.3.1.min.js'),
 		self.data.url('tinycon.js'),
 		self.data.url('jquery.tokeninput.js'),
+		self.data.url('HTMLPasteurizer.js'),
 		self.data.url('snuownd.js'),
 		self.data.url('utils.js'),
 		self.data.url('browsersupport.js'),
+		self.data.url('browsersupport-firefox.js'),
 		self.data.url('console.js'),
 		self.data.url('alert.js'),
 		self.data.url('storage.js'),
 		self.data.url('template.js'),
 		self.data.url('konami.js'),
 		self.data.url('mediacrush.js'),
+		self.data.url('gfycat.js'),
 		self.data.url('hogan-2.0.0.js'),
 		self.data.url('reddit_enhancement_suite.user.js'),
 		self.data.url('modules/betteReddit.js'),
@@ -146,6 +201,7 @@ pageMod.PageMod({
 		self.data.url('modules/singleClick.js'),
 		self.data.url('modules/commentPreview.js'),
 		self.data.url('modules/commentTools.js'),
+		self.data.url('modules/sortCommentsTemporarily.js'),
 		self.data.url('modules/usernameHider.js'),
 		self.data.url('modules/showImages.js'),
 		self.data.url('modules/showKarma.js'),
@@ -170,7 +226,7 @@ pageMod.PageMod({
 		self.data.url('modules/commentHidePersistor.js'),
 		self.data.url('modules/bitcointip.js'),
 		self.data.url('modules/troubleshooter.js'),
-		self.data.url('modules/tests.js'),
+		self.data.url('modules/localDate.js'),
 		self.data.url('init.js')
 	],
 	contentStyleFile: [
@@ -178,9 +234,9 @@ pageMod.PageMod({
 		self.data.url('commentBoxes.css'),
 		self.data.url('fineuploader.css'),
 		self.data.url('res.css'),
+		self.data.url('players.css'),
 		self.data.url('guiders.css'),
 		self.data.url('tokenize.css'),
-		self.data.url('fitbamob.css'),
 		self.data.url('batch.css')
 	],
 	onAttach: function(worker) {
@@ -272,6 +328,7 @@ pageMod.PageMod({
 					worker.postMessage({status: "success"});
 					break;
 				case 'keyboardNav':
+					inBackground = (request.button === 1)
 					isPrivate = priv.isPrivate(windows.activeWindow);
 
 					// handle requests from keyboardNav module

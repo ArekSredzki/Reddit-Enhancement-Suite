@@ -1,6 +1,6 @@
 {
 	"name": "Reddit Enhancement Suite",
-	"version": "4.3.1.2",
+	"version": "4.3.2.1",
 	"manifest_version": 2,
 	"minimum_chrome_version": "26.0",
 	"description": "Reddit Enhancement Suite - a group of enhancements for browsing Reddit",
@@ -26,9 +26,11 @@
 				"jquery.fineuploader-4.3.1.min.js",
 				"tinycon.js",
 				"jquery.tokeninput.js",
+				"HTMLPasteurizer.js",
 				"snuownd.js",
 				"utils.js",
 				"browsersupport.js",
+				"browsersupport-chrome.js",
 				"console.js",
 				"alert.js",
 				"storage.js",
@@ -36,6 +38,7 @@
 				"konami.js",
 				"hogan-2.0.0.js",
 				"mediacrush.js",
+				"gfycat.js",
 				"reddit_enhancement_suite.user.js",
 				"modules/betteReddit.js",
 				"modules/userTagger.js",
@@ -48,6 +51,7 @@
 				"modules/singleClick.js",
 				"modules/commentPreview.js",
 				"modules/commentTools.js",
+				"modules/sortCommentsTemporarily.js",
 				"modules/usernameHider.js",
 				"modules/showImages.js",
 				"modules/showKarma.js",
@@ -72,16 +76,16 @@
 				"modules/commentHidePersistor.js",
 				"modules/bitcointip.js",
 				"modules/troubleshooter.js",
-				"modules/tests.js",
+				"modules/localDate.js",
 				"init.js"
 			],
 			"css": [
 				"nightmode.css",
 				"commentBoxes.css",
 				"res.css",
+				"players.css",
 				"guiders.css",
 				"tokenize.css",
-				"fitbamob.css",
 				"fineuploader.css",
 				"batch.css"
 			],
@@ -94,7 +98,7 @@
 	],
 	"icons": {
 		"48": "icon48.png",
-		"128": "icon128.png" 
+		"128": "icon128.png"
 	},
 	"permissions": [
 		"cookies",
@@ -107,7 +111,6 @@
 		"http://*.reddit.com/*",
 		"https://*.reddit.com/*",
 		"http://redditgifts.com/*",
-		"http://api.twitter.com/*",
 		"http://min.us/api/*",
 		"http://*.flickr.com/photos/*",
 		"http://img.photobucket.com/*",
