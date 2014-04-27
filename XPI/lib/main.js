@@ -2,12 +2,12 @@
 /* global require: false */
 
 // Import the APIs we need.
-let pageMod = require("page-mod");
-let Request = require("request").Request;
-let self = require("self");
-let tabs = require("tabs");
-let ss = require("simple-storage");
-let priv = require("private-browsing");
+let pageMod = require("sdk/page-mod");
+let Request = require("sdk/request").Request;
+let self = require("sdk/self");
+let tabs = require("sdk/tabs");
+let ss = require("sdk/simple-storage");
+let priv = require("sdk/private-browsing");
 let windows = require("sdk/windows").browserWindows;
 
 // require chrome allows us to use XPCOM objects...
@@ -121,6 +121,7 @@ pageMod.PageMod({
 		self.data.url('guiders-1.2.8.js'),
 		self.data.url('jquery.dragsort-0.6.js'),
 		self.data.url('jquery-fieldselection.min.js'),
+		self.data.url('jquery.fineuploader-4.3.1.min.js'),
 		self.data.url('tinycon.js'),
 		self.data.url('jquery.tokeninput.js'),
 		self.data.url('snuownd.js'),
@@ -156,6 +157,7 @@ pageMod.PageMod({
 		self.data.url('modules/styleTweaks.js'),
 		self.data.url('modules/accountSwitcher.js'),
 		self.data.url('modules/filteReddit.js'),
+		self.data.url('modules/imageUpload.js'),
 		self.data.url('modules/newCommentCount.js'),
 		self.data.url('modules/spamButton.js'),
 		self.data.url('modules/commentNavigator.js'),
@@ -174,11 +176,12 @@ pageMod.PageMod({
 	contentStyleFile: [
 		self.data.url('nightmode.css'),
 		self.data.url('commentBoxes.css'),
+		self.data.url('fineuploader.css'),
 		self.data.url('res.css'),
 		self.data.url('guiders.css'),
 		self.data.url('tokenize.css'),
 		self.data.url('fitbamob.css'),
-		self.data.url("batch.css")
+		self.data.url('batch.css')
 	],
 	onAttach: function(worker) {
 		// when a tab is activated, repopulate localStorage so that changes propagate across tabs...
